@@ -1,0 +1,56 @@
+{
+  "name": "dsh-knowledge-library",
+  "version": "0.2.1",
+  "description": "Human-reviewed global and workspace knowledge libraries for DeepSeek Harness",
+  "type": "module",
+  "main": "./src/host.mjs",
+  "engines": {
+    "node": ">=24"
+  },
+  "exports": {
+    ".": "./src/host.mjs",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src/host.mjs",
+    "src/service.mjs",
+    "src/storage.mjs",
+    "src/validation.mjs",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "docs/trial.md",
+    "docs/requirements.md",
+    "docs/design.md"
+  ],
+  "scripts": {
+    "test": "npm run build && node --test",
+    "build": "node scripts/build-client.mjs",
+    "prepack": "npm run build",
+    "pack:trial": "node -e \"require('node:fs').mkdirSync('artifacts', { recursive: true })\" && npm pack --pack-destination artifacts"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml",
+      "listedByDefault": false
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-settings-general"
+      ],
+      "external": [
+        "react",
+        "react/jsx-runtime"
+      ]
+    }
+  }
+}
